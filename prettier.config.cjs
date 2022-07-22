@@ -1,0 +1,15 @@
+module.exports = {
+    plugins: [require('prettier-plugin-tailwindcss')],
+    singleQuote: true,
+    trailingComma: 'es5',
+    printWidth: 100,
+    semi: true,
+    svelteSortOrder: 'options-scripts-markup-styles',
+    svelteStrictMode: true,
+    bracketSameLine: false,
+    svelteAllowShorthand: true,
+    svelteIndentScriptAndStyle: true,
+    tabWidth: 4,
+    htmlWhitespaceSensitivity: 'ignore',
+    tailwindConfig: './tailwind.config.cjs',
+};
