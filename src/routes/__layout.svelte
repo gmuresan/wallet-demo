@@ -1,13 +1,13 @@
 <script type="ts">
     import '../app.css';
     import detectGamestopProvider from '@gamestopnft/detect-gamestop-provider';
-
-    let address: string;
+    import { web3Address } from '../stores/web3';
 
     const onConnect = async () => {
         const web3 = await detectGamestopProvider();
         const res = await web3.request({ method: 'eth_requestAccounts' });
-        address = res[0];
+        const address = res[0];
+        web3Address.set(address);
     };
 </script>
 
@@ -16,8 +16,8 @@
         <span class="btn btn-ghost text-xl normal-case">Interactive NFT Wallet</span>
     </div>
     <div class="flex-none gap-2">
-        {#if address}
-            {address}
+        {#if $web3Address}
+            {$web3Address}
         {:else}
             <button on:click="{onConnect}">Connect</button>
         {/if}

@@ -2,15 +2,21 @@
     import { browser } from '$app/env';
     import { onMount, onDestroy } from 'svelte';
     import detectGamestopProvider from '@gamestopnft/detect-gamestop-provider';
+    import { web3Address } from '../stores/web3';
 
     let iframe: HTMLIFrameElement;
-    let channel: MessageChannel = new MessageChannel();
-    const port: MessagePort = channel.port1;
-    let loaded = false;
+    let iframe2: HTMLIFrameElement;
+
+    $: {
+        if ($web3Address) {
+            window.addEventListener('message', initWeb3);
+            iframe?.contentWindow?.postMessage('web3Handshake', '*');
+            iframe2?.contentWindow?.postMessage('web3Handshake', '*');
+        }
+    }
 
     onMount(() => {
         console.log('add parent event listener a');
-        window.addEventListener('message', initWeb3);
     });
 
     onDestroy(() => {
@@ -24,32 +30,43 @@
     const initWeb3 = (e) => {
         if (e.data === 'initWeb3') {
             console.log('parent message', e);
-            window.removeEventListener('message', initWeb3);
-            onLoad();
+            onLoad(e);
         }
     };
 
-    const onLoad = async () => {
-        if (loaded) return;
+    const onLoad = async (e) => {
         console.log('parent onload');
-        port.onmessage = onMessage;
-        iframe.contentWindow?.postMessage('initWeb3', '*', [channel.port2]);
-        loaded = true;
+        const channel = new MessageChannel();
+        const port = channel.port1;
+        port.onmessage = async (msg) => {
+            console.log('PARENT MSG', msg);
+            const web3 = await detectGamestopProvider();
+            const { data } = msg;
+            const res = await web3.request({ method: data.method, params: data.params });
+            console.log(res);
+            port.postMessage({ jsonrpc: data.jsonrpc, id: data.id, result: res });
+        };
+        e.source.postMessage('initWeb3', '*', [channel.port2]);
         console.log('parent init sent');
-    };
-
-    const onMessage = async (msg) => {
-        console.log('PARENT MSG', msg);
-        const web3 = await detectGamestopProvider();
-        const { data } = msg;
-        const res = await web3.request({ method: data.method });
-        console.log(res);
-        port.postMessage({ jsonrpc: data.jsonrpc, id: data.id, result: res });
     };
 </script>
 
 <div class="m-16 grid grid-cols-3">
-    <div class="h-96 w-80 rounded-xl border-2 border-gray-300 bg-white p-4 shadow-2xl">
-        <iframe src="http://localhost:5174" title="app1" bind:this="{iframe}"></iframe>
+    <div class="h-96 w-80 rounded-xl border-2 border-gray-300 bg-white p-1 shadow-2xl">
+        <iframe
+            src="http://localhost:5174"
+            class="h-full w-full rounded-lg"
+            title="app1"
+            bind:this="{iframe}"
+        ></iframe>
+    </div>
+
+    <div class="h-96 w-80 rounded-xl border-2 border-gray-300 bg-white p-1 shadow-2xl">
+        <iframe
+            src="http://localhost:5175"
+            class="h-full w-full rounded-lg"
+            title="app1"
+            bind:this="{iframe2}"
+        ></iframe>
     </div>
 </div>
