@@ -1,5 +1,5 @@
 <script type="ts">
-    import { browser } from '$app/env';
+    import { browser, dev } from '$app/env';
     import { onMount, onDestroy } from 'svelte';
     import detectGamestopProvider from '@gamestopnft/detect-gamestop-provider';
     import { web3Address } from '../stores/web3';
@@ -51,12 +51,20 @@
         e.source.postMessage('initWeb3', '*', [channel.port2]);
         console.log('parent init sent');
     };
+
+    const urls = dev
+        ? ['http://localhost:5174', 'http://localhost:5175', 'http://localhost:5176']
+        : [
+              'https://vercel.com/gmuresan/interactive-nft-demo/4bnWN8dqSMD4LxjPexwqJzCNxbYU',
+              'https://vercel.com/gmuresan/voting/7Wo26bFiUZLdVe5W4mYfaCJUF6Hg',
+              'https://vercel.com/gmuresan/rich-nft/HNk8VZSvposJfufHPJbYb3yx7BGG',
+          ];
 </script>
 
 <div class="m-16 grid grid-cols-3">
     <div class="h-96 w-80 rounded-xl border-2 border-gray-300 bg-white p-1 shadow-2xl">
         <iframe
-            src="http://localhost:5174"
+            src="{urls[0]}"
             class="h-full w-full rounded-lg"
             title="app1"
             bind:this="{iframe}"
@@ -65,7 +73,7 @@
 
     <div class="h-96 w-80 rounded-xl border-2 border-gray-300 bg-white p-1 shadow-2xl">
         <iframe
-            src="http://localhost:5175"
+            src="{urls[1]}"
             class="h-full w-full rounded-lg"
             title="app1"
             bind:this="{iframe2}"
@@ -74,7 +82,7 @@
 
     <div class="h-96 w-80 rounded-xl border-2 border-gray-300 bg-white p-1 shadow-2xl">
         <iframe
-            src="http://localhost:5176"
+            src="{urls[2]}"
             class="h-full w-full rounded-lg"
             title="app1"
             bind:this="{iframe3}"
