@@ -55,9 +55,9 @@
     const urls = dev
         ? ['http://localhost:5174', 'http://localhost:5175', 'http://localhost:5176']
         : [
-              'https://vercel.com/gmuresan/interactive-nft-demo/4bnWN8dqSMD4LxjPexwqJzCNxbYU',
-              'https://vercel.com/gmuresan/voting/7Wo26bFiUZLdVe5W4mYfaCJUF6Hg',
-              'https://vercel.com/gmuresan/rich-nft/HNk8VZSvposJfufHPJbYb3yx7BGG',
+              'https://interactive-nft-demo.vercel.app/',
+              'https://voting-e3two3esy-gmuresan.vercel.app/',
+              'https://rich-nft-six.vercel.app/',
           ];
 </script>
 
