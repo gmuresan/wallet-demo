@@ -62,7 +62,7 @@
               'http://richnft:5176',
           ]
         : [
-              'https://interactive-nft-demo.vercel.app/',
+              'https://audio-nft.on.fleek.co/',
               'https://interactive-nft-demo.vercel.app/',
               'https://voting-e3two3esy-gmuresan.vercel.app/',
               'https://rich-nft-six.vercel.app/',
