@@ -7,6 +7,7 @@
     let iframe: HTMLIFrameElement;
     let iframe2: HTMLIFrameElement;
     let iframe3: HTMLIFrameElement;
+    let iframe4: HTMLIFrameElement;
 
     $: {
         if ($web3Address) {
@@ -14,6 +15,7 @@
             iframe?.contentWindow?.postMessage('web3Handshake', '*');
             iframe2?.contentWindow?.postMessage('web3Handshake', '*');
             iframe3?.contentWindow?.postMessage('web3Handshake', '*');
+            iframe4?.contentWindow?.postMessage('web3Handshake', '*');
         }
     }
 
@@ -53,15 +55,21 @@
     };
 
     const urls = dev
-        ? ['http://localhost:5174', 'http://localhost:5175', 'http://localhost:5176']
+        ? [
+              'http://audio:5177',
+              'http://collection:5174',
+              'http://voting:5175',
+              'http://richnft:5176',
+          ]
         : [
+              'https://interactive-nft-demo.vercel.app/',
               'https://interactive-nft-demo.vercel.app/',
               'https://voting-e3two3esy-gmuresan.vercel.app/',
               'https://rich-nft-six.vercel.app/',
           ];
 </script>
 
-<div class="m-16 grid grid-cols-3">
+<div class="m-16 grid grid-cols-3 gap-4">
     <div class="h-96 w-80 rounded-xl border-2 border-gray-300 bg-white p-1 shadow-2xl">
         <iframe
             src="{urls[0]}"
@@ -70,7 +78,6 @@
             bind:this="{iframe}"
         ></iframe>
     </div>
-
     <div class="h-96 w-80 rounded-xl border-2 border-gray-300 bg-white p-1 shadow-2xl">
         <iframe
             src="{urls[1]}"
@@ -86,6 +93,15 @@
             class="h-full w-full rounded-lg"
             title="app1"
             bind:this="{iframe3}"
+        ></iframe>
+    </div>
+
+    <div class="h-96 w-80 rounded-xl border-2 border-gray-300 bg-white p-1 shadow-2xl">
+        <iframe
+            src="{urls[3]}"
+            class="h-full w-full rounded-lg"
+            title="app1"
+            bind:this="{iframe4}"
         ></iframe>
     </div>
 </div>
